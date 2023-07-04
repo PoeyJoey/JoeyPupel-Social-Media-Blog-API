@@ -17,8 +17,16 @@ public class MessageService {
         this.messageDAO = messageDAO;
     }
 
+    public Boolean checkMessageText(String messageText) {
+        if (messageText != "" && messageText.length() < 255) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public Message postMessage(Message message) {
-        if (message.getMessage_text() != "" && message.getMessage_text().length() < 255) {
+        if (checkMessageText(message.getMessage_text())) {
             return messageDAO.postMessage(message);
         } else {
             return null;
@@ -39,5 +47,19 @@ public class MessageService {
             messageDAO.deleteMessageByID(messageID);
         }
         return returnMessage;
+    }
+
+    public Message updateMessage(int messageID, String newMessageText) {
+        if (checkMessageText(newMessageText)) {
+            System.out.println("Message was not empty or wrong!");
+            Message message = getMessageByID(messageID);
+            if (message != null) {
+                messageDAO.updateMessage(messageID, newMessageText);
+                return getMessageByID(messageID);
+            }
+        }
+        
+
+        return null;
     }
 }

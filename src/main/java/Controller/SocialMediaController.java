@@ -125,9 +125,16 @@ public class SocialMediaController {
     /**
      * 7
      */
-    private void patchMessageByIDHandler(Context ctx) {
-        ctx.pathParam("message_id");
-        ctx.status(400);
+    private void patchMessageByIDHandler(Context ctx) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        String newMessageText = mapper.readTree(ctx.body()).get("message_text").asText();
+        int messageID = Integer.parseInt(ctx.pathParam("message_id"));
+        Message updatedMessage = messageService.updateMessage(messageID, newMessageText);
+        if (updatedMessage != null) {
+            ctx.json(updatedMessage);
+        } else {
+            ctx.status(400);
+        }
     }
 
     /**
