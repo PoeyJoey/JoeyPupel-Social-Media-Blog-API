@@ -105,8 +105,10 @@ public class SocialMediaController {
      * 5
      */
     private void getMessageByIDHandler(Context ctx) {
-        ctx.pathParam("message_id");
-        
+        Message message = messageService.getMessageByID(Integer.parseInt(ctx.pathParam("message_id")));
+        if (message != null){
+            ctx.json(message);
+        }
     }
 
     /**
