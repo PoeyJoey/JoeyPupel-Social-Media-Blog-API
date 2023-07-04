@@ -58,8 +58,10 @@ public class MessageService {
                 return getMessageByID(messageID);
             }
         }
-        
-
         return null;
+    }
+
+    public List<Message> getAllMessagesByUser(int userID) {
+        return messageDAO.getAllMessagesByUser(userID);
     }
 }

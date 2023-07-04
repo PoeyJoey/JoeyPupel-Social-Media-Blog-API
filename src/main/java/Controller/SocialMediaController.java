@@ -11,11 +11,6 @@ import io.javalin.http.Context;
 
 import java.util.List;
 
-/**
- * TODO: You will need to write your own endpoints and handlers for your controller. The endpoints you will need can be
- * found in readme.md as well as the test cases. You should
- * refer to prior mini-project labs and lecture materials for guidance on how a controller may be built.
- */
 public class SocialMediaController {
 
     AccountService accountService;
@@ -26,11 +21,6 @@ public class SocialMediaController {
         this.messageService = new MessageService();
     }
 
-    /**
-     * In order for the test cases to work, you will need to write the endpoints in the startAPI() method, as the test
-     * suite must receive a Javalin object from this method.
-     * @return a Javalin app object which defines the behavior of the Javalin controller.
-     */
     public Javalin startAPI() {
         Javalin app = Javalin.create();
 
@@ -41,9 +31,8 @@ public class SocialMediaController {
         app.get("/messages/{message_id}", this::getMessageByIDHandler);
         app.delete("/messages/{message_id}", this::deleteMessageByIDHandler);
         app.patch("/messages/{message_id}", this::patchMessageByIDHandler);
-        app.get("/accounts/{account_id}", this::getAllMessagesByUserHandler);
+        app.get("/accounts/{account_id}/messages", this::getAllMessagesByUserHandler);
 
-        //app.start(8080);
         return app;
     }
 
@@ -141,7 +130,10 @@ public class SocialMediaController {
      * 8
      */
     private void getAllMessagesByUserHandler(Context ctx) {
-        ctx.pathParam("account_id");
+        List<Message> messages = messageService.getAllMessagesByUser(Integer.parseInt(ctx.pathParam("account_id")));
+        //if (messages != null) {
+            ctx.json(messages);
+        //}
     }
 
 
