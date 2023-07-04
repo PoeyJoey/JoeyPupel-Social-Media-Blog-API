@@ -131,9 +131,7 @@ public class SocialMediaController {
      */
     private void getAllMessagesByUserHandler(Context ctx) {
         List<Message> messages = messageService.getAllMessagesByUser(Integer.parseInt(ctx.pathParam("account_id")));
-        //if (messages != null) {
-            ctx.json(messages);
-        //}
+        ctx.json(messages);
     }
 
 
