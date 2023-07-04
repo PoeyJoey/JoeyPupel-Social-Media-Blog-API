@@ -55,17 +55,23 @@ public class SocialMediaController {
         Account account = mapper.readValue(ctx.body(), Account.class);
         Account addedAccount = accountService.registerAccount(account);
         if (addedAccount != null) {
-            System.out.println("It worked! Should be status 200...");
             ctx.json(addedAccount);
-            ctx.status(200);
         } else {
-            System.out.println("Big Fail! It's No Good!");
             ctx.status(400);
         }
     }
 
-    private void postLoginHandler(Context ctx) {
-        ctx.status(401);
+    private void postLoginHandler(Context ctx) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        Account account = mapper.readValue(ctx.body(), Account.class);
+        Account loginAccount = accountService.loginAccount(account);
+        if (loginAccount != null) {
+            ctx.json(loginAccount);
+        } else {
+            ctx.status(401);
+        }
+
+        
     }
 
     private void postMessageHandler(Context ctx) {

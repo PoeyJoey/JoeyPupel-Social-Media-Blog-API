@@ -23,13 +23,13 @@ public class AccountService {
             //account with that username does not exist
             if (accountDAO.getAccountByUsername(account.getUsername()) == null){
                 return accountDAO.registerAccount(account);
-            } else {
-                return null;
             }
-        } else {
-            return null;
         }
+        return null;
         
-        
+    }
+
+    public Account loginAccount (Account account) {
+        return accountDAO.loginAccount(account);
     }
 }
