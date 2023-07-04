@@ -32,4 +32,8 @@ public class AccountService {
     public Account loginAccount (Account account) {
         return accountDAO.loginAccount(account);
     }
+
+    public Account checkAccountExists(int userID) {
+        return accountDAO.getAccountByID(userID);
+    }
 }

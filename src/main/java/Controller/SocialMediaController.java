@@ -46,10 +46,8 @@ public class SocialMediaController {
     }
 
     /**
-     * This is an example handler for an example endpoint.
-     * @param context The Javalin Context object manages information about both the HTTP request and response.
+     * 1
      */
-
     private void postCreateAccountHandler(Context ctx) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         Account account = mapper.readValue(ctx.body(), Account.class);
@@ -61,6 +59,9 @@ public class SocialMediaController {
         }
     }
 
+    /**
+     * 2
+     */
     private void postLoginHandler(Context ctx) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         Account account = mapper.readValue(ctx.body(), Account.class);
@@ -70,33 +71,60 @@ public class SocialMediaController {
         } else {
             ctx.status(401);
         }
-
-        
     }
 
-    private void postMessageHandler(Context ctx) {
-        ctx.status(400);
+    /**
+     * 3
+     */
+    private void postMessageHandler(Context ctx) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        Message message = mapper.readValue(ctx.body(), Message.class);
+        if (accountService.checkAccountExists(message.getPosted_by()) != null) {
+            Message addedMessage = messageService.postMessage(message);
+            if (addedMessage != null) {
+                ctx.json(addedMessage);
+            } else {
+                ctx.status(400);
+            }
+        } else {
+            ctx.status(400);
+        }
     }
 
+    /**
+     * 4
+     */
     private void getAllMessagesHandler(Context ctx) {
         
     }
 
+    /**
+     * 5
+     */
     private void getMessageByIDHandler(Context ctx) {
         ctx.pathParam("message_id");
         
     }
 
+    /**
+     * 6
+     */
     private void deleteMessageByIDHandler(Context ctx) {
         ctx.pathParam("message_id");
         
     }
 
+    /**
+     * 7
+     */
     private void patchMessageByIDHandler(Context ctx) {
         ctx.pathParam("message_id");
         ctx.status(400);
     }
 
+    /**
+     * 8
+     */
     private void getAllMessagesByUserHandler(Context ctx) {
         ctx.pathParam("account_id");
     }
